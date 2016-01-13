@@ -28,11 +28,15 @@ gradient = cv2.subtract(gradX, gradY)
 gradient = cv2.convertScaleAbs(gradient)
 
 # blur and threshold the image
-blurred = cv2.blur(gradient, (9, 9))
+# blurred = cv2.blur(gradient, (9, 9))
+# another optinal is to use GaussianBlur
+blurred = cv2.GaussianBlur(gradient, (9, 9),0)
+
 (_, thresh) = cv2.threshold(blurred, 225, 255, cv2.THRESH_BINARY)
 
 # construct a closing kernel and apply it to the thresholded image
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 7))
+# The size should be changed for different picture to be more accuracy
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 21))
 closed = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
 
 # perform a series of erosions and dilations
